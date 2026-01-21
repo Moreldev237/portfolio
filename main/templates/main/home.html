@@ -1,0 +1,261 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Accueil - NKONGA TADJUIDJE MOREL{% endblock %}
+
+{% block extra_head %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+    
+    .typing-container {
+        font-family: 'Dancing Script', cursive;
+        font-style: italic;
+    }
+    
+    .cursor {
+        display: inline-block;
+        width: 3px;
+        background-color: white;
+        margin-left: 2px;
+        animation: blink 1s infinite;
+    }
+    
+    @keyframes blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0; }
+    }
+    
+    .tech-card {
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    
+    .tech-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(59, 130, 246, 0.5);
+        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Hero Section -->
+    <div class="flex flex-col lg:flex-row items-center justify-between min-h-[80vh]">
+        <!-- Left Column: Text Content -->
+        <div class="lg:w-1/2 mb-12 lg:mb-0">
+            <div class="mb-6">
+                <h1 class="text-5xl md:text-7xl font-bold mb-4">
+                    <span class="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+                        Bonjour, je suis
+                    </span>
+                </h1>
+                
+                <!-- Animated Name -->
+                <div class="typing-container text-4xl md:text-6xl text-black italic mb-4 bg-white px-4 py-2 rounded-lg inline-block">
+                    <span id="typed-name"></span>
+                    <span class="cursor"></span>
+                </div>
+                
+                <h2 class="text-2xl md:text-3xl text-cyan-300 font-semibold mb-6">
+                    Développeur Web Full Stack | DevOps Engineer
+                </h2>
+                
+                <p class="text-lg text-gray-300 mb-8 leading-relaxed">
+                    Passionné par la création de solutions web innovantes et l'automatisation des processus DevOps.
+                    Je combine expertise technique et vision stratégique pour développer des applications performantes,
+                    scalables et maintenables.
+                </p>
+                
+                <div class="flex flex-wrap gap-4">
+                    <a href="{% url 'contact' %}" 
+                       class="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg hover:opacity-90 transition-all transform hover:scale-105">
+                        Me Contacter
+                    </a>
+                    <a href="{% static 'images/CV_NKONGA_MOREL.pdf' %}" 
+                       class="px-8 py-3 border border-cyan-500 text-cyan-400 font-semibold rounded-lg hover:bg-cyan-500/10 transition-all">
+                        Télécharger CV
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column: Profile Picture -->
+        <div class="lg:w-1/2 flex justify-center">
+            <div class="relative">
+                <div class="absolute -inset-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full blur-xl opacity-30"></div>
+                <div class="relative">
+                    <div class="w-64 h-64 md:w-80 md:h-80 rounded-full border-4 border-cyan-500/30 overflow-hidden">
+                        <!-- Placeholder for profile image -->
+                        <div class="w-full h-full bg-gradient-to-br from-cyan-900 to-blue-900 flex items-center justify-center">
+                            <span class="text-6xl text-cyan-300">NM</span>
+                        </div>
+                        <!-- Actual image would be: <img src="{% static 'images/profile.jpg' %}" alt="NKONGA TADJUIDJE MOREL" class="w-full h-full object-cover"> -->
+                    </div>
+                </div>
+                
+                <!-- Floating Tech Icons Around Profile -->
+                <div class="absolute -top-4 -right-4 w-16 h-16 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center border border-cyan-500/30">
+                    <i class="devicon-python-plain colored text-3xl"></i>
+                </div>
+                <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center border border-cyan-500/30">
+                    <i class="devicon-docker-plain colored text-3xl"></i>
+                </div>
+                <div class="absolute top-1/2 -right-8 w-14 h-14 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center border border-cyan-500/30">
+                    <i class="devicon-aws-plain colored text-2xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Technologies Section -->
+    <div class="mt-20">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">
+            <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                Technologies & Compétences
+            </span>
+        </h2>
+        
+        {% for category, tech_list in technologies.items %}
+        <div class="mb-12">
+            <h3 class="text-2xl font-semibold text-cyan-300 mb-6 flex items-center">
+                <span class="w-8 h-1 bg-cyan-500 mr-4"></span>
+                {{ category }}
+            </h3>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                {% for tech in tech_list %}
+                <div class="tech-card bg-gray-900/50 rounded-xl p-4 flex flex-col items-center justify-center text-center hover:bg-gray-800/50 transition-all duration-300">
+                    <i class="{{ tech.icon }} text-4xl mb-3 {% if 'colored' not in tech.icon %}text-gray-300{% endif %}"></i>
+                    <span class="text-sm font-medium text-gray-200">{{ tech.name }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Typewriter Effect for Name
+    const name = "NKONGA TADJUIDJE MOREL";
+    const typedNameElement = document.getElementById('typed-name');
+    let charIndex = 0;
+    let isDeleting = false;
+    let isEnd = false;
+    
+    function typeWriter() {
+        const currentText = name.substring(0, charIndex);
+        typedNameElement.textContent = currentText;
+        
+        if (!isDeleting && charIndex < name.length) {
+            // Typing
+            charIndex++;
+            setTimeout(typeWriter, 100);
+        } else if (isDeleting && charIndex > 0) {
+            // Deleting
+            charIndex--;
+            setTimeout(typeWriter, 50);
+        } else {
+            // Switch between typing and deleting
+            isDeleting = !isDeleting;
+            if (!isDeleting) {
+                isEnd = true;
+            }
+            setTimeout(typeWriter, 1500);
+        }
+    }
+    
+    // Start typing effect when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(typeWriter, 1000);
+        
+        // Matrix rain effect
+        createMatrixRain();
+    });
+    
+    function createMatrixRain() {
+        const container = document.querySelector('.code-rain');
+        const chars = "010101010101010101010101";
+        const fontSize = 14;
+        
+        // Calculate number of columns based on container width
+        const width = window.innerWidth;
+        const columns = Math.floor(width / fontSize);
+        
+        // Create columns
+        for (let i = 0; i < columns; i++) {
+            const column = document.createElement('div');
+            column.style.position = 'absolute';
+            column.style.top = '-100px';
+            column.style.left = i * fontSize + 'px';
+            column.style.fontSize = fontSize + 'px';
+            column.style.color = '#0ea5e9';
+            column.style.fontFamily = 'monospace';
+            column.style.opacity = '0.3';
+            column.style.textShadow = '0 0 5px #0ea5e9';
+            column.style.whiteSpace = 'nowrap';
+            container.appendChild(column);
+            
+            // Animate column
+            animateColumn(column);
+        }
+        
+        function animateColumn(column) {
+            let length = Math.floor(Math.random() * 20) + 10;
+            let charsArray = [];
+            
+            // Create initial characters
+            for (let i = 0; i < length; i++) {
+                charsArray.push(chars[Math.floor(Math.random() * chars.length)]);
+            }
+            
+            let position = -length * fontSize;
+            
+            function draw() {
+                // Move column down
+                position += fontSize;
+                
+                // If column moved out of view, reset it
+                if (position > window.innerHeight) {
+                    position = -length * fontSize;
+                    length = Math.floor(Math.random() * 20) + 10;
+                    charsArray = [];
+                    for (let i = 0; i < length; i++) {
+                        charsArray.push(chars[Math.floor(Math.random() * chars.length)]);
+                    }
+                }
+                
+                // Update column position
+                column.style.top = position + 'px';
+                
+                // Update characters with fading effect
+                let text = '';
+                for (let i = 0; i < charsArray.length; i++) {
+                    // Randomly change some characters
+                    if (Math.random() > 0.95) {
+                        charsArray[i] = chars[Math.floor(Math.random() * chars.length)];
+                    }
+                    
+                    // Calculate opacity based on position in stream
+                    const opacity = i === charsArray.length - 1 ? 1 : 
+                                  i === charsArray.length - 2 ? 0.8 :
+                                  i === charsArray.length - 3 ? 0.6 : 0.3;
+                    
+                    text += `<span style="opacity: ${opacity}">${charsArray[i]}</span>`;
+                }
+                
+                column.innerHTML = text;
+                
+                // Continue animation
+                setTimeout(draw, 100);
+            }
+            
+            draw();
+        }
+    }
+</script>
+{% endblock %}
