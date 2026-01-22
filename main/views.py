@@ -1,35 +1,38 @@
 from django.shortcuts import render
 from django.conf import settings
+from django.core.mail import send_mail
+from django.http import JsonResponse
+import json
 
 def home(request):
     technologies = {
         'Développement Web': [
-            {'name': 'HTML', 'icon': 'devicon-html5-plain'},
-            {'name': 'CSS', 'icon': 'devicon-css3-plain'},
-            {'name': 'JavaScript', 'icon': 'devicon-javascript-plain'},
-            {'name': 'Bootstrap', 'icon': 'devicon-bootstrap-plain'},
-            {'name': 'Tailwind CSS', 'icon': 'devicon-tailwindcss-plain'},
-            {'name': 'Python', 'icon': 'devicon-python-plain'},
-            {'name': 'Django', 'icon': 'devicon-django-plain'},
-            {'name': 'FastAPI', 'icon': 'devicon-fastapi-plain'},
-            {'name': 'Flask', 'icon': 'devicon-flask-original'},
+            {'name': 'HTML', 'icon': 'devicon-html5-plain colored'},
+            {'name': 'CSS', 'icon': 'devicon-css3-plain colored'},
+            {'name': 'JavaScript', 'icon': 'devicon-javascript-plain colored'},
+            {'name': 'Bootstrap', 'icon': 'devicon-bootstrap-plain colored'},
+            {'name': 'Tailwind CSS', 'icon': 'devicon-tailwindcss-plain colored'},
+            {'name': 'Python', 'icon': 'devicon-python-plain colored'},
+            {'name': 'Django', 'icon': 'devicon-django-plain colored'},
+            {'name': 'FastAPI', 'icon': 'devicon-fastapi-plain colored'},
+            {'name': 'Flask', 'icon': 'devicon-flask-original colored'},
         ],
         'DevOps': [
-            {'name': 'Linux', 'icon': 'devicon-linux-plain'},
-            {'name': 'Docker', 'icon': 'devicon-docker-plain'},
-            {'name': 'Ansible', 'icon': 'devicon-ansible-plain'},
-            {'name': 'Kubernetes', 'icon': 'devicon-kubernetes-plain'},
-            {'name': 'Terraform', 'icon': 'devicon-terraform-plain'},
-            {'name': 'GitHub Actions', 'icon': 'devicon-githubactions-plain'},
-            {'name': 'Prometheus', 'icon': 'devicon-prometheus-original'},
-            {'name': 'Grafana', 'icon': 'devicon-grafana-original'},
-            {'name': 'SonarQube', 'icon': 'devicon-sonarqube-original'},
-            {'name': 'Traefik', 'icon': 'devicon-traefikproxy-plain'},
+            {'name': 'Linux', 'icon': 'devicon-linux-plain colored'},
+            {'name': 'Docker', 'icon': 'devicon-docker-plain colored'},
+            {'name': 'Ansible', 'icon': 'devicon-ansible-plain colored'},
+            {'name': 'Kubernetes', 'icon': 'devicon-kubernetes-plain colored'},
+            {'name': 'Terraform', 'icon': 'devicon-terraform-plain colored'},
+            {'name': 'GitHub Actions', 'icon': 'devicon-githubactions-plain colored'},
+            {'name': 'Prometheus', 'icon': 'devicon-prometheus-original colored'},
+            {'name': 'Grafana', 'icon': 'devicon-grafana-original colored'},
+            {'name': 'SonarQube', 'icon': 'devicon-sonarqube-original colored'},
+            {'name': 'Traefik', 'icon': 'devicon-traefikproxy-plain colored'},
         ],
         'Cloud': [
-            {'name': 'AWS', 'icon': 'devicon-amazonwebservices-plain'},
-            {'name': 'GCP', 'icon': 'devicon-googlecloud-plain'},
-            {'name': 'Azure', 'icon': 'devicon-azure-plain'},
+            {'name': 'AWS', 'icon': 'devicon-amazonwebservices-plain colored'},
+            {'name': 'GCP', 'icon': 'devicon-googlecloud-plain colored'},
+            {'name': 'Azure', 'icon': 'devicon-azure-plain colored'},
         ]
     }
     
@@ -45,7 +48,7 @@ def projects(request):
             'title': 'Application E-commerce',
             'description': 'Plateforme e-commerce complète avec paiement en ligne et gestion des stocks.',
             'skills': ['Django', 'PostgreSQL', 'Stripe API', 'Docker'],
-            'image': 'projects/ecommerce.jpg',
+            'image': 'images/projects/ecommerce.jpg',
             'demo_url': 'https://demo-ecommerce.example.com',
             'source_url': 'https://github.com/username/ecommerce',
         },
@@ -53,7 +56,7 @@ def projects(request):
             'title': 'Dashboard DevOps',
             'description': 'Dashboard de monitoring avec métriques en temps réel.',
             'skills': ['FastAPI', 'Grafana', 'Prometheus', 'Docker'],
-            'image': 'projects/devops-dashboard.jpg',
+            'image': 'images/projects/devops-dashboard.jpg',
             'demo_url': 'https://dashboard.example.com',
             'source_url': 'https://github.com/username/devops-dashboard',
         },
@@ -61,7 +64,7 @@ def projects(request):
             'title': 'API REST Microservices',
             'description': 'Architecture microservices avec orchestration Kubernetes.',
             'skills': ['FastAPI', 'Kubernetes', 'Docker', 'PostgreSQL'],
-            'image': 'projects/microservices.jpg',
+            'image': 'images/projects/microservices.jpg',
             'demo_url': 'https://api.example.com',
             'source_url': 'https://github.com/username/microservices-api',
         },
@@ -69,9 +72,9 @@ def projects(request):
             'title': 'Portfolio Personnel',
             'description': 'Site portfolio responsive avec animations modernes.',
             'skills': ['Django', 'Tailwind CSS', 'JavaScript', 'GSAP'],
-            'image': 'projects/portfolio.jpg',
+            'image': 'images/projects/portfolio.jpg',
             'demo_url': '#',
-            'source_url': 'https://github.com/username/portfolio',
+            'source_url': 'https://github.com/Moreldev237/portfolio.git',
         },
     ]
     
@@ -84,20 +87,20 @@ def projects(request):
 def certifications(request):
     certifications_data = [
         {
-            'title': 'AWS Certified Solutions Architect',
-            'issuer': 'Amazon Web Services',
-            'date': '2023',
-            'credential_id': 'AWS-123456',
-            'icon': 'devicon-amazonwebservices-plain colored',
-            'verify_url': 'https://aws.amazon.com/verification',
+            'title': 'Linux Fundamentals',
+            'issuer': 'LearnQuest',
+            'date': 'Decembre 2025',
+            'credential_id': 'CN55BW3L00NK',
+            'icon': 'devicon-LearnQuest-plain colored',
+            'verify_url': 'https://www.coursera.org/account/accomplishments/records/CN55BW3L00NK',
         },
         {
-            'title': 'Docker Certified Associate',
-            'issuer': 'Docker Inc.',
-            'date': '2023',
-            'credential_id': 'DCA-789012',
+            'title': 'Introduction to containers with Docker/Kubernetes/OpenShift',
+            'issuer': 'IBM',
+            'date': 'Decembre 2025',
+            'credential_id': 'XVA6FW2NTFUQ',
             'icon': 'devicon-docker-plain colored',
-            'verify_url': 'https://docker.com/certification',
+            'verify_url': 'https://www.coursera.org/account/accomplishments/records/XVA6FW2NTFUQ',
         },
         {
             'title': 'Python Django Developer',
@@ -124,6 +127,45 @@ def certifications(request):
     return render(request, 'main/certifications.html', context)
 
 def contact(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            name = data.get('name')
+            email = data.get('email')
+            subject = data.get('subject')
+            message = data.get('message')
+            
+            # Validate required fields
+            if not all([name, email, subject, message]):
+                return JsonResponse({'success': False, 'message': 'Tous les champs sont requis.'}, status=400)
+            
+            # Prepare email
+            email_subject = f"Portfolio Contact: {subject}"
+            email_message = f"""
+Nouveau message depuis le portfolio :
+
+De: {name} ({email})
+
+Sujet: {subject}
+
+Message:
+{message}
+"""
+            
+            # Send email
+            send_mail(
+                email_subject,
+                email_message,
+                settings.EMAIL_HOST_USER,  # From
+                [settings.EMAIL_HOST_USER],  # To (yourself)
+                fail_silently=False,
+            )
+            
+            return JsonResponse({'success': True, 'message': 'Message envoyé avec succès !'})
+            
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': f'Erreur lors de l\'envoi: {str(e)}'}, status=500)
+    
     context = {
         'social_links': settings.SOCIAL_LINKS,
     }

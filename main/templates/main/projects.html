@@ -51,11 +51,8 @@
         {% for project in projects %}
         <div class="project-card bg-gray-900/30 rounded-2xl overflow-hidden">
             <!-- Project Image -->
-            <div class="h-48 overflow-hidden">
-                <div class="w-full h-full bg-gradient-to-br from-cyan-900/50 to-blue-900/50 flex items-center justify-center">
-                    <i class="fas fa-code text-6xl text-cyan-400/50"></i>
-                    <!-- Actual image would be: <img src="{% static project.image %}" alt="{{ project.title }}" class="project-image w-full"> -->
-                </div>
+            <div class="h-50 overflow-hidden">
+                <img src="{% static project.image %}" alt="{{ project.title }}" class="project-image w-full h-full">
             </div>
             
             <!-- Project Content -->
