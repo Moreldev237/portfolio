@@ -140,3 +140,10 @@ SOCIAL_LINKS = {
     'tiktok': os.getenv('TIKTOK_URL', 'https://tiktok.com/@Morel'),
     'email': 'nkongamorel1@gmail.com',
 }
+
+# Security settings for production
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
